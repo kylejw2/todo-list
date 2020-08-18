@@ -28,6 +28,24 @@ const readLists = (id) => {
     return iou;
 }
 
+// CREATE a new user
+const createUser = (user) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.insertOne(user, (err, result) => {
+                assert.equal(err, null);
+                resolve(result);
+                client.close();
+            });
+        });
+    });
+    return iou;
+}
+
 module.exports = {
-    readLists
+    readLists,
+    createUser
 }
