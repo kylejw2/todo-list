@@ -11,3 +11,78 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.bgImg {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: -5;
+}
+.bgFilter {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: rgba(0, 0, 0, .55);
+}
+
+.bg-transparent {
+  position: absolute;
+  z-index: 2;
+}
+
+.righten {
+  display: flex;
+  justify-content: flex-end !important;
+}
+
+.navbar-collapse {
+  /* background: rgba(20, 17, 18, 0.95); */
+  padding: 10px;
+}
+
+.nav-item {
+  width: 6rem;
+}
+
+.align {
+  color: rgb(68, 68, 68);
+  position: absolute;
+  top: 18%;
+}
+.signup {
+  background: #f3f3f3;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.has-account {
+  padding: 12px 0 0 0;
+  font-style: italic;
+}
+
+.has-account:hover {
+  cursor: pointer;
+  color: rgb(19, 122, 255);
+}
+
+.bright-red {
+  color: red !important;
+}
+
+ /* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {}
