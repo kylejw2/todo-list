@@ -6,9 +6,10 @@ const {
 
 // GET a user's lists
 router.get('/:id', async (req, res, next) => {
+    console.log('hey');
     const id = req.params.id;
     const data = await readLists(id);
     res.send(data);
-});
+})
 
 module.exports = router;
