@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Abraham",
+        "email": "abe@gmail.com",
+        "password": "abeabe",
+        "lists": [
+            {
+                "name": "Gettysburg Address",
+                "description": "Motivate citizens to desire a change for racial justice.",
+                "tasks": ["Write speech.", "Give speech"]
+            }
+        ]
+    },
+    {
+        "name": "Becky",
+        "email": "becky@gmail.com",
+        "password": "beckybecky",
+        "lists": [
+            {
+                "name": "Buy new car",
+                "description": "",
+                "tasks": ["Research potential cars", "Earn money to afford a car", "Buy the car"]
+            }
+        ]
+    },
+    {
+        "name": "Chris",
+        "email": "chris@gmail.com",
+        "password": "chrischris",
+        "lists": [
+            {
+                "name": "Buy groceries",
+                "description": "Get food so I'm not hungry",
+                "tasks": ["Buy the food", "Eat the food"]
+            }
+        ]
+    }
+]
