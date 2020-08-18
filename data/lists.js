@@ -37,7 +37,7 @@ const createUser = (user) => {
             const collection = db.collection(col_name);
             collection.insertOne(user, (err, result) => {
                 assert.equal(err, null);
-                resolve(result);
+                resolve(result.ops);
                 client.close();
             });
         });
