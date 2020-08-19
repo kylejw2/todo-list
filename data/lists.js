@@ -17,24 +17,28 @@ const salt = 10;
 
 // VERIFY a user's credentials
 const verifyUser = (email, password) => {
-    let users = [];
-    MongoClient.connect(url, options, (err, client) => {
-        assert.equal(err, null);
-        const db = client.db(db_name);
-        const collection = db.collection(col_name);
-        collection.find({}).toArray((err, docs) => {
+    const iou = new Promise((resolve, reject) => { 
+        MongoClient.connect(url, options, (err, client) => {
             assert.equal(err, null);
-            users = docs;
-            client.close();
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.find({}).toArray((err, docs) => {
+                assert.equal(err, null);
+                let flag = false;
+                for (let i = 0; i < docs.length; i++) {
+                    if (email === docs[i].email && bcrypt.compareSync(password, docs[i].password)) {
+                        resolve(true);
+                        flag = true;
+                    }
+                    if (i === docs.length - 1 && !flag) {
+                        resolve(false);
+                    }
+                }
+                client.close();
+            });
         });
     });
-
-    for (let i = 0; i < users.length; i++) {
-        if (email === users[i].email && bcrypt.compareSync(password, users[i].password)) {
-            return true;
-        }
-    }
-    return false;
+    return iou;
 }
 
 // READ the lists for a specific user
@@ -71,8 +75,33 @@ const createUser = (user) => {
     return iou;
 }
 
+const verifyEmail = (user) => {
+    const iou = new Promise((resolve, reject) => {
+        MongoClient.connect(url, options, (err, client) => {
+            assert.equal(err, null);
+            const db = client.db(db_name);
+            const collection = db.collection(col_name);
+            collection.find({}).toArray((err, docs) => {
+                assert.equal(err, null);
+                let flag = false;
+                for (let i = 0; i < docs.length; i++) {
+                    if (user.email === docs[i].email) {flag = true; break;}
+                }
+                if (flag) {
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+                client.close();
+            });
+        });
+    });
+    return iou;
+};
+
 module.exports = {
     readLists,
     createUser,
-    verifyUser
+    verifyUser, 
+    verifyEmail
 }

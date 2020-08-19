@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { getItem, setItem } from '../config/local';
-import bcrypt from 'bcryptjs';
+import { getItem, setItem, getRemember } from '../config/local';
 
 const Login = (props) => {
 
     const [email, setEmail] = useState(getItem('email'));
     const [password, setPassword] = useState(getItem('password'));
-    const [remember, setRemember] = useState(getItem('remember'));
+    const [remember, setRemember] = useState(getRemember());
 
-    const salt = bcrypt.genSaltSync(10);
-
-    const isAuthorized = () => {
-        // need to verify on back-end if the credentials match
+    const isAuthorized = async () => {
+        const potentialUser = {
+            email: email,
+            password: password
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(potentialUser)
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/lists/login`, options);
+        const authorized = await response.json();
+        console.log(authorized);
     }
 
     return (
@@ -20,12 +30,12 @@ const Login = (props) => {
             <div className="form-group">
                 <input type='email' name='email' className='form-control' placeholder='Enter email' value={email} onChange={({target}) => {
                     setEmail(target.value);
-                }}/>
+                }} required/>
             </div>
             <div className='form-group'>
                 <input type='password' name='password1' className='form-control' placeholder='Enter password' value={password} onChange={({target}) => {
                     setPassword(target.value);
-                }}/>
+                }} required/>
             </div>
             <div className='form-check' style={{paddingBottom: '12px'}}>
                 <input type='checkbox' className="form-check-input" checked={remember} onChange={({target}) => {
@@ -35,11 +45,10 @@ const Login = (props) => {
             <button className='btn btn-primary' onClick={async (event) => {
                 // send data and verify login credentials
                 event.preventDefault();
+                isAuthorized();
                 if (remember) {
                     setItem('email', email);
-                    // await setItem('password', bcrypt.hashSync(password, salt));
                     setItem('remember', true);
-                    console.log(bcrypt.hash(password, salt))
                 } else {
                     setItem('email', '');
                     setItem('remember', false);

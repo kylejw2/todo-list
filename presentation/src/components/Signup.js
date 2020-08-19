@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs';
 
 const Signup = (props) => {
     const [name, setName] = useState(() => '');
@@ -6,7 +7,10 @@ const Signup = (props) => {
     const [password1, setPassword1] = useState(() => '');
     const [password2, setPassword2] = useState(() => '');
     const [passwordsMatch, updateMatch] = useState(() => true);
+    const [emailTaken, updateEmailTaken] = useState(() => false);
     const [remember, setRemember] = useState(() => true);
+
+    const salt = bcrypt.genSaltSync(10);
 
     const handleChange = (event) => {
         switch (event.target.name) {
@@ -35,6 +39,7 @@ const Signup = (props) => {
             return;
         } else {
             updateMatch(true);
+            createUser();
         }
     }
 
@@ -42,7 +47,7 @@ const Signup = (props) => {
         const user = {
             name: name,
             email: email,
-            password: password1,
+            password: bcrypt.hashSync(password1, salt),
             lists: []
         }
         const options = {
@@ -51,6 +56,14 @@ const Signup = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(user)
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users/signup`, options);
+        const data = await response.json();
+        if (data === false) {
+            updateEmailTaken(true);
+        } else {
+            // redirect to user-specific home page
+            updateEmailTaken(false);
         }
     }
 
@@ -63,6 +76,7 @@ const Signup = (props) => {
             <div className="form-group">
                 <input type='email' name='email' className='form-control' placeholder='Enter email' value={email} onChange={handleChange} required/>
                 <small className='form-text text-muted'>I'll never share your email with anyone else.</small>
+                { emailTaken ? <small className="bright-red">Email already in use</small> : <></> }
             </div>
             <div className='form-group'>
                 <input type='password' name='password1' className='form-control' placeholder='Enter password' value={password1} onChange={handleChange} required/>
