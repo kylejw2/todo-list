@@ -1,21 +1,15 @@
 const local = window.localStorage;
 
-const getEmail = () => {
-    return local.getItem('email');
+const getItem = (key) => {
+    return local.getItem(key);
 }
-
-const getPassword = () => {
-    return local.getItem('password');
-}
-
-const getRemember = () => {
-    return local.getItem('remember');
+const setItem = (key, value) => {
+    local.setItem(key, value);
 }
 
 module.exports = {
-    getEmail,
-    getPassword,
-    getRemember
+    getItem,
+    setItem
 }
 
 // use local storage to keep their email and password ready BUT ENCRYPTED

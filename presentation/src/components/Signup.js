@@ -38,6 +38,22 @@ const Signup = (props) => {
         }
     }
 
+    const createUser = async () => {
+        const user = {
+            name: name,
+            email: email,
+            password: password1,
+            lists: []
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        }
+    }
+
     return (
         <form className='signup'>
         <h2>Sign up</h2>
