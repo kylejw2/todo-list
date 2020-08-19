@@ -11,6 +11,32 @@ const options = {
     useUnifiedTopology: true
 };
 
+// Setup encryption process
+const bcrypt = require('bcrypt');
+const salt = 10;
+
+// VERIFY a user's credentials
+const verifyUser = (email, password) => {
+    let users = [];
+    MongoClient.connect(url, options, (err, client) => {
+        assert.equal(err, null);
+        const db = client.db(db_name);
+        const collection = db.collection(col_name);
+        collection.find({}).toArray((err, docs) => {
+            assert.equal(err, null);
+            users = docs;
+            client.close();
+        });
+    });
+
+    for (let i = 0; i < users.length; i++) {
+        if (email === users[i].email && bcrypt.compareSync(password, users[i].password)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // READ the lists for a specific user
 const readLists = (id) => {
     const iou = new Promise((resolve, reject) => {
@@ -47,5 +73,6 @@ const createUser = (user) => {
 
 module.exports = {
     readLists,
-    createUser
+    createUser,
+    verifyUser
 }
