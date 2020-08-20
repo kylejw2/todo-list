@@ -95,7 +95,7 @@ const Signup = (props) => {
                 <input type='checkbox' name="remember" className="form-check-input" checked={remember} onChange={handleChange}/> {' Keep me signed in'}
             </div>
             <button className='btn btn-primary' onClick={handleClick}>Submit</button>
-            <p onClick={props.changeSignup} className='has-account'>Already have an account?</p>
+            <p onClick={() => props.changeSignup(false)} className='has-account'>Already have an account?</p>
         </form>
     )
 }

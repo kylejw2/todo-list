@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../assets/logo.png';
 // watch out for some errors from Heroky when using hrefs
 
-const Nav = () => {
+const Nav = (props) => {
     return (
         <nav className='navbar navbar-expand-md bg-transparent navbar-dark bg-dark' style={{width: "100%"}}>
         <div className='container-fluid'>
@@ -23,10 +23,10 @@ const Nav = () => {
                         <a className='nav-link disabled' href='/'>Pricing</a>
                     </li>
                     <li className='nav-item'>
-                        <a className='nav-link' href='/'>Sign up</a>
+                        <a className='nav-link' href='#' onClick={() => props.changeSignup(true)}>Sign up</a>
                     </li>
                     <li className='nav-item'>
-                        <a className='nav-link' href='/'>Log in</a>
+                        <a className='nav-link' href='#' onClick={() => props.changeSignup(false)}>Log in</a>
                     </li>
                 </ul>
         </div>

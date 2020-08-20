@@ -70,6 +70,16 @@ code {
   color: red !important;
 }
 
+.nav-link {
+  padding-top: 25px;
+}
+
+.sidebar {
+  width: 25%;
+  border-right: 1px solid #f3f3f3;
+  height: 85vh;
+}
+
  /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { 
 }

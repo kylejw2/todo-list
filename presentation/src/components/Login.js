@@ -64,7 +64,7 @@ const Login = (props) => {
                     setItem('auth', '');
                 }
             }}>Submit</button>
-            <p onClick={props.changeSignup} className='has-account'>Create an account</p>
+            <p onClick={() => props.changeSignup(true)} className='has-account'>Create an account</p>
         </form>
     )
 }

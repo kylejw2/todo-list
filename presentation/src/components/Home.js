@@ -10,8 +10,8 @@ import { setItem } from '../config/session';
 const Home = (props) => {
     const [signup, setSignup] = useState(() => true);
 
-    const toggleSignup = () => {
-        setSignup(!signup);
+    const toggleSignup = (bool) => {
+        setSignup(bool);
     }
 
     const handleSuccessfulAuth = (token) => {
@@ -25,7 +25,7 @@ const Home = (props) => {
 
     return (
         <>
-        <Nav />
+        <Nav changeSignup={toggleSignup}/>
         {window.innerWidth > 576 ? <img src={bgImg} className='bgImg' alt=''/> : <img src={bgImgMobile} className='bgImg' alt=''/>}
         <div className='bgFilter'></div>
         <div className='container-fluid'>
