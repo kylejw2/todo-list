@@ -64,11 +64,12 @@ const Signup = (props) => {
         } else {
             // redirect to user-specific home page
             updateEmailTaken(false);
+            console.log(response.headers.get('auth'));
         }
     }
 
     return (
-        <form className='signup'>
+        <form className='signup-login'>
         <h2>Sign up</h2>
             <div className='form-group'>
                 <input type='text' name='name' className='form-control' placeholder='Enter name' value={name} onChange={handleChange} required/>

@@ -27,7 +27,7 @@ const verifyUser = (email, password) => {
                 let flag = false;
                 for (let i = 0; i < docs.length; i++) {
                     if (email === docs[i].email && bcrypt.compareSync(password, docs[i].password)) {
-                        resolve(true);
+                        resolve(docs[i]._id);
                         flag = true;
                     }
                     if (i === docs.length - 1 && !flag) {

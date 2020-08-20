@@ -4,7 +4,7 @@ import { getItem, setItem, getRemember } from '../config/local';
 const Login = (props) => {
 
     const [email, setEmail] = useState(getItem('email'));
-    const [password, setPassword] = useState(getItem('password'));
+    const [password, setPassword] = useState(() => '');
     const [remember, setRemember] = useState(getRemember());
 
     const isAuthorized = async () => {
@@ -19,13 +19,12 @@ const Login = (props) => {
             },
             body: JSON.stringify(potentialUser)
         }
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/lists/login`, options);
-        const authorized = await response.json();
-        console.log(authorized);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, options);
+        console.log(response.headers.get('auth'));
     }
 
     return (
-        <form className='signup'>
+        <form className='signup-login'>
         <h2>Log in</h2>
             <div className="form-group">
                 <input type='email' name='email' className='form-control' placeholder='Enter email' value={email} onChange={({target}) => {
