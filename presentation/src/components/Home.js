@@ -5,14 +5,23 @@ import bgImg from '../assets/bgImg.jpg';
 import bgImgMobile from '../assets/bgImgMobile.jpg';
 import Signup from './Signup';
 import Login from './Login';
+import { setItem } from '../config/session';
 
-const Home = () => {
+const Home = (props) => {
     const [signup, setSignup] = useState(() => true);
 
     const toggleSignup = () => {
         setSignup(!signup);
     }
 
+    const handleSuccessfulAuth = (token) => {
+        setItem('auth', token);
+        props.history.push('/profile');
+    }
+
+    if (props.token) {
+        handleSuccessfulAuth(props.token);
+    }
 
     return (
         <>
@@ -22,7 +31,8 @@ const Home = () => {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='offset-md-7 col-md-4 col-xs-10 align-items-center align'>
-                { signup ? <Signup changeSignup={toggleSignup} /> : <Login changeSignup={toggleSignup} />}
+                { signup ? <Signup changeSignup={toggleSignup} handleSuccessfulAuth={handleSuccessfulAuth} /> 
+                : <Login changeSignup={toggleSignup} handleSuccessfulAuth={handleSuccessfulAuth}/>}
                 </div>
             </div>
         </div>

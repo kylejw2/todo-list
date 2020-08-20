@@ -6,6 +6,7 @@ const Login = (props) => {
     const [email, setEmail] = useState(getItem('email'));
     const [password, setPassword] = useState(() => '');
     const [remember, setRemember] = useState(getRemember());
+    const [invalidLogin, setInvalidLogin] = useState(() => false);
 
     const isAuthorized = async () => {
         const potentialUser = {
@@ -20,7 +21,15 @@ const Login = (props) => {
             body: JSON.stringify(potentialUser)
         }
         const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, options);
-        console.log(response.headers.get('auth'));
+        if (response.status === 401) {
+            setInvalidLogin(true);
+        } else {
+            setInvalidLogin(false);
+            if (remember) {
+                setItem('auth', response.headers.get('auth'));
+            }
+            props.handleSuccessfulAuth(response.headers.get('auth'));
+        }
     }
 
     return (
@@ -35,13 +44,14 @@ const Login = (props) => {
                 <input type='password' name='password1' className='form-control' placeholder='Enter password' value={password} onChange={({target}) => {
                     setPassword(target.value);
                 }} required/>
+                { invalidLogin ? <small className="bright-red">Username and password incorrect.</small> : <></> }
             </div>
             <div className='form-check' style={{paddingBottom: '12px'}}>
                 <input type='checkbox' className="form-check-input" checked={remember} onChange={({target}) => {
                     setRemember(!remember);
                 }} /> {' Keep me signed in'}
             </div>
-            <button className='btn btn-primary' onClick={async (event) => {
+            <button className='btn btn-primary' onClick={(event) => {
                 // send data and verify login credentials
                 event.preventDefault();
                 isAuthorized();
@@ -51,6 +61,7 @@ const Login = (props) => {
                 } else {
                     setItem('email', '');
                     setItem('remember', false);
+                    setItem('auth', '');
                 }
             }}>Submit</button>
             <p onClick={props.changeSignup} className='has-account'>Create an account</p>

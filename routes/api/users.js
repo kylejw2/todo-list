@@ -20,11 +20,11 @@ router.post('/signup', async (req, res, next) => {
   if (data) {
     const response = await createUser(body);
     // assign a token and send it
-    const token = await jwt.sign({ id: response[0]._id})
+    const token = await jwt.sign({ id: response[0]._id}, process.env.JWT_KEY)
     console.log(response[0]._id);
     res.send(token);
   } else {
-    res.send(false);
+    res.status(401).send();
   }
 });
 
@@ -39,7 +39,7 @@ router.post('/login', async (req, res, next) => {
       res.set('Access-Control-Expose-Headers', 'auth');
       res.send();
   } else {
-      res.send();
+      res.status(401).send();
   }
 })
 

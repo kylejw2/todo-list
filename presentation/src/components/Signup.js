@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import bcrypt from 'bcryptjs';
+import { setItem } from '../config/local';
 
 const Signup = (props) => {
     const [name, setName] = useState(() => '');
@@ -58,13 +59,17 @@ const Signup = (props) => {
             body: JSON.stringify(user)
         }
         const response = await fetch(`${process.env.REACT_APP_API_URL}/users/signup`, options);
-        const data = await response.json();
-        if (data === false) {
+        if (response.status === 401) {
             updateEmailTaken(true);
         } else {
             // redirect to user-specific home page
             updateEmailTaken(false);
-            console.log(response.headers.get('auth'));
+            if (remember) {
+                setItem('token', response.headers.get('auth'));
+            }
+            // put the token in session storage
+            props.handleSuccessfulAuth(response.headers.get('auth'));
+            // console.log(response.headers.get('auth'));
         }
     }
 
