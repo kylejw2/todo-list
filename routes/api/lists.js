@@ -12,7 +12,12 @@ router.get('/', async (req, res, next) => {
     if (token) {
         const decoded = await jwt.verify(token, process.env.JWT_KEY);
         const data = await readLists(decoded.id);
-        res.send(data);
+        const cleanObj = {
+            name: data.name,
+            id: data._id,
+            lists: data.lists
+        }
+        res.send(cleanObj);
     } else {
         res.status(403).send();
     }
