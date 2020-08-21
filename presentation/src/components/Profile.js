@@ -1,34 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getItem } from '../config/session';
 import logo from '../assets/logo.png';
 
 const Profile = (props) => {
+    const token = getItem('auth');
+    if (!token) {
+        props.history.push('/'); // props.history.push may not work with Heroku. May need to use redirect
+    }
+
     const [profile, setProfile] = useState({});
 
-    const token = getItem('auth');
+    // const getProfile = async () => {
+    //     const options = {
+    //         headers: {
+    //             'auth': token
+    //         }
+    //     }
+    //     const response = await fetch(`${process.env.REACT_APP_API_URL}/lists`, options);
+    //     const data = await response.json();
+    //     setProfile(data);
+    // }
 
-    const getProfile = async () => {
+    useEffect(() => {
         const options = {
             headers: {
                 'auth': token
             }
         }
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/lists`, options);
-        const data = await response.json();
-        setProfile(data);
-    }
-    
-    if (!token) {
-        props.history.push('/'); // props.history.push may not work with Heroku. May need to use redirect
-        console.log(token);
-    } else {
-        getProfile();
-    }
+        fetch(`${process.env.REACT_APP_API_URL}/lists`, options)
+            .then(response => response.json())
+            .then(data => {
+                setProfile(data);
+            });
+    }, [token, setProfile]);
 
     const getListTitles = () => {
         console.log(profile);
     }
-
 
     return (
         <>
