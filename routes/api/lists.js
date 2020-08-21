@@ -2,7 +2,8 @@ var express = require('express');
 const jwt = require('jsonwebtoken');
 var router = express.Router();
 const {
-    readLists
+    readLists,
+    updateLists
 } = require('../../data/lists');
 
 // GET a user's lists
@@ -21,7 +22,14 @@ router.get('/', async (req, res, next) => {
     } else {
         res.status(403).send();
     }
-    
+});
+
+// Update the user's lists
+router.patch('/', async (req, res) => {
+    const id = req.header('id');
+    const body = req.body;
+    const data = updateLists(id, body);
+    res.send(data);
 });
 
 module.exports = router;
