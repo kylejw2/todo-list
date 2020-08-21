@@ -28,13 +28,22 @@ const Profile = (props) => {
         return profile.lists.map((list, index) => <ListHeader key={index} name={list.name} />);
     }
 
-    const addList = (newList) => {
+    const addList = async (newList) => {
         // get the data then use setProfile to add the data to the list
-        setProfile(old => {
-            let obj = Object.assign({}, old);
-            obj.lists.push(newList);
-            return obj;
-        })
+        const obj = Object.assign({}, profile);
+        obj.lists.push(newList);
+        
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'id': obj.id
+            },
+            body: JSON.stringify({lists: obj.lists})
+        }
+        await fetch(`${process.env.REACT_APP_API_URL}/lists`, options);
+
+        setProfile(obj);
     }
 
     return (
