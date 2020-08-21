@@ -6,7 +6,7 @@ const {
 } = require('../../data/lists');
 
 // GET a user's lists
-router.get('/:id', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const token = req.header('auth');
 
     if (token) {

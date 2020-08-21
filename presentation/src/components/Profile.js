@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getItem } from '../config/session';
 import logo from '../assets/logo.png';
 
 const Profile = (props) => {
+    const [profile, setProfile] = useState({});
 
     const token = getItem('auth');
 
+    const getProfile = async () => {
+        const options = {
+            headers: {
+                'auth': token
+            }
+        }
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/lists`, options);
+        const data = await response.json();
+        setProfile(data);
+    }
+    
     if (!token) {
         props.history.push('/'); // props.history.push may not work with Heroku. May need to use redirect
         console.log(token);
+    } else {
+        getProfile();
     }
+
+    const getListTitles = () => {
+        console.log(profile);
+    }
+
 
     return (
         <>
@@ -38,7 +57,8 @@ const Profile = (props) => {
         </nav>
         <aside>
             <ul className="list-group list-group-flush sidebar">
-        {/* You want to make the list on the left side dynamic, so make a sub-component and call it for all the lists */}
+                <button onClick={getListTitles}>Hey</button>
+
                 <li className="list-group-item">
                     Example
                 </li>
