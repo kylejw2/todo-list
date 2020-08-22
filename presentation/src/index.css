@@ -6,6 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body, .sidebar, .sideItem {
+  background: #f7f7f7;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -75,9 +78,15 @@ code {
 }
 
 .sidebar {
-  width: 25%;
+  /* width: 25%; */
   border-right: 1px solid #f3f3f3;
   height: 85vh;
+}
+
+.display-title {
+  text-transform: capitalize;
+  font-weight: 200;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
  /* Small devices (landscape phones, 576px and up) */
