@@ -65,7 +65,7 @@ const Signup = (props) => {
             // redirect to user-specific home page
             updateEmailTaken(false);
             if (remember) {
-                setItem('token', response.headers.get('auth'));
+                setItem('auth', response.headers.get('auth'));
             }
             // put the token in session storage
             props.handleSuccessfulAuth(response.headers.get('auth'));

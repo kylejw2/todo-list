@@ -72,6 +72,7 @@ const Profile = (props) => {
             return;
         }
         const obj = Object.assign({}, profile);
+        console.log(profile);
         const id = obj.id;
         delete obj.id;
         obj.lists[indexDisplayed].tasks.push(task);
